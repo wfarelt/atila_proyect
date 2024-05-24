@@ -4,17 +4,19 @@
 
 {% block content %}
 <h1>Hello World!</h1>
-<p>Welcome to my first Django project!</p>
+<p>Welcome to Atila project!</p>
 
 
-{% if not grupos %}
+{% if cant_grupos < 1 %}
     <p>No existen grupos</p>
 {% else %}
+    Grupos habilitados:
+    <br>
     {% for grupo in grupos %}
-        <p>Grupo: {{grupo.nombre}}</p>
+        <p>{{grupo.nombre}}</p>
     {% endfor %}
 {% endif %}
 
 <br>
-<a href="{% url 'formulario_new' %}">Nuevo Formulario</a>
+<a class="btn btn-primary" href="{% url 'formulario_new' %}">Nuevo Formulario</a>
 {% endblock %}

@@ -8,8 +8,9 @@ from .forms import FormularioForm
 # Create your views here.
 
 def home(request):
+    cant_grupos = Grupo.objects.count()
     grupos = Grupo.objects.all()
-    return render(request, 'decisiones/home.html', {'grupos': grupos})
+    return render(request, 'decisiones/home.html', {'cant_grupos':cant_grupos, 'grupos': grupos})
 
 
 class FormularioNew(CreateView):
