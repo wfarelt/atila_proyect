@@ -1,0 +1,30 @@
+{% extends 'decisiones/base.html' %}
+{% load static %}
+{% block title %}
+<title>Formulario2</title>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="card mt-4 mb-4">
+    <div class="card-header">
+        <h2 class="text-center">FORMULARIO 2</h2>
+        <p class="text-center"> {{formulario}} </p>
+    </div>
+    <div class="card-body">
+
+    Valor inventario Materia prima {{a}}
+    Crédito fiscal 
+    Caja y Bancos 
+    Glosa: Compras de materias primas
+   
+    </div>
+    <div class="card-footer">
+        <div class="text-center">    
+            <a class="btn btn-danger" href="{% url 'home' %}">Volver</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

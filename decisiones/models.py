@@ -14,7 +14,7 @@ class Grupo(models.Model):
         return self.nombre
 
 class Formulario(models.Model):
-    grupo = models.ForeignKey(Grupo, on_delete=models.CASCADE)
+    grupo = models.ForeignKey(Grupo, on_delete=models.CASCADE, related_name='formularios')
     P4 = models.IntegerField(verbose_name='Indique la cantidad total de personal especializado de mano de obra de producción en un trimestre (en cantidad)')
     P5 = models.IntegerField(verbose_name='El total de personal especializado como máximo puede producir un total de unidades de productos terminados en trimestre de: (en cantidad)')
     P6 = models.DecimalField(verbose_name='Solo un personal especializado de mano de obra de producción en promedio tiene un costo trimestral de bolivianos. (Una sola persona)', max_digits=10, decimal_places=2)
@@ -52,7 +52,7 @@ class Formulario(models.Model):
     P45 = models.CharField(verbose_name='Cantidad de unidades a vender en este trimestre', max_length=100)
 
     def __str__(self):
-        return f'Formulario #{self.id}'
+        return f'Formulario #{self.id} - Grupo: {self.grupo.nombre}'
     
     class Meta:
         verbose_name = "Formulario"
