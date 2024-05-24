@@ -1,0 +1,20 @@
+{% extends 'decisiones/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<h1>Hello World!</h1>
+<p>Welcome to my first Django project!</p>
+
+
+{% if not grupos %}
+    <p>No existen grupos</p>
+{% else %}
+    {% for grupo in grupos %}
+        <p>Grupo: {{grupo.nombre}}</p>
+    {% endfor %}
+{% endif %}
+
+<br>
+<a href="{% url 'formulario_new' %}">Nuevo Formulario</a>
+{% endblock %}
