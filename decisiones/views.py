@@ -1,6 +1,7 @@
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView, DetailView
 from django.urls import reverse_lazy
 from django.shortcuts import render
+from django.contrib import messages
 
 from .models import Formulario, Grupo
 from .forms import FormularioForm
@@ -17,7 +18,11 @@ class FormularioNew(CreateView):
     template_name = 'decisiones/formulario_form.html'
     form_class = FormularioForm
     success_url = reverse_lazy('formulario_new')
-    message = 'Formulario creado con éxito'
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'El registro se ha guardado con éxito.')
+        return response
 
 # Formulario view
 class FormularioList(ListView):
