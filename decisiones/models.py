@@ -57,3 +57,24 @@ class Formulario(models.Model):
     class Meta:
         verbose_name = "Formulario"
         verbose_name_plural = "Formularios"
+
+    # crear una función que calcule CYB= P8*P9
+    def calcular_CYB(self):
+        return self.P8 * self.P9
+    
+    # Valor invetario Materia Prima
+    def calcular_VIMP(self):
+        return float(self.calcular_CYB()) * 0.87
+    
+    # Credito Fiscal
+    def calcular_CF(self):
+        return float(self.calcular_CYB()) * 0.13
+    
+    # Valor Inventario Productos Terminados
+    def calcular_VIPT(self):
+        return float(self.P9) * float(self.P8)*0.87*float(self.P40)
+
+    # Valor Inventario Materia Prima
+    def calcular_VIMP2(self):
+        return float(self.P9) * float(self.P8)*0.87
+    

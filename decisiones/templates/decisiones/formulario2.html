@@ -1,7 +1,7 @@
 {% extends 'decisiones/base.html' %}
 {% load static %}
 {% block title %}
-<title>Formulario2</title>
+<title>{{titulo}}</title>
 {% endblock %}
 
 
@@ -13,12 +13,11 @@
         <p class="text-center"> {{formulario}} </p>
     </div>
     <div class="card-body">
+        
+    {% include 'decisiones/asiento1.html' %}
+    <br>
+    {% include 'decisiones/asiento2.html' %}
 
-    Valor inventario Materia prima {{a}}
-    Crédito fiscal 
-    Caja y Bancos 
-    Glosa: Compras de materias primas
-   
     </div>
     <div class="card-footer">
         <div class="text-center">    
