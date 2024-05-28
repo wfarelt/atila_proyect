@@ -9,7 +9,15 @@
     <p>Welcome to Atila project!</p>
 
     <br>
-    <br>
+
+ 
+    {% if user.is_authenticated %}
+    <p>Usuario: {{ user.username }}</p>
+    <p>Grupo: {{ migrupo.nombre }}</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+ 
 
 {% if cant_grupos < 1 %}
     <p>No existen grupos</p>

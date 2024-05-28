@@ -1,17 +1,25 @@
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView, DetailView
 from django.urls import reverse_lazy
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib import messages
 
 from .models import Formulario, Grupo
 from .forms import FormularioForm
 
 # Create your views here.
+from django.contrib.auth.admin import User
+from django.contrib.auth.views import LoginView, LogoutView
+
+class Login(LoginView):
+    template_name = 'registration/login.html'
+    fields = '__all__'
+    redirect_authenticated_user = True
 
 def home(request):
+    migrupo = Grupo.get_group(request.user)
     cant_grupos = Grupo.objects.count()
     grupos = Grupo.objects.all()
-    return render(request, 'decisiones/home.html', {'cant_grupos':cant_grupos, 'grupos': grupos})
+    return render(request, 'decisiones/home.html', {'cant_grupos':cant_grupos, 'grupos': grupos , 'migrupo': migrupo})
 
 class FormularioNew(CreateView):
     model = Formulario

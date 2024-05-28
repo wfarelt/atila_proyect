@@ -1,18 +1,42 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
+class Semestre(models.Model):
+    año = models.IntegerField()
+    nombre = models.CharField(max_length=10)
+
+    class Meta:
+        verbose_name = "Semestre"
+        verbose_name_plural = "Semestres"
+        ordering = ['año', 'nombre']
+
+    #mostrar año y nombre
+    def __str__(self):
+        return f'{self.año} - {self.nombre}'
+
 class Grupo(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=100)
+    semestre = models.ForeignKey(Semestre, on_delete=models.CASCADE, related_name='grupos')
 
     class Meta:
         verbose_name = "Grupo"
         verbose_name_plural = "Grupos"
-        ordering = ['nombre']
+        ordering = ['semestre', 'nombre']
 
     def __str__(self):
         return self.nombre
+    
+    # obtener el nombre del grupo del usuario
+    @staticmethod
+    def get_group(user):
+        return Grupo.objects.get(user=user)
+        
+    
 
+#FORMULARIO
 class Formulario(models.Model):
     grupo = models.ForeignKey(Grupo, on_delete=models.CASCADE, related_name='formularios')
     P4 = models.IntegerField(verbose_name='Indique la cantidad total de personal especializado de mano de obra de producción en un trimestre (en cantidad)')
@@ -77,4 +101,27 @@ class Formulario(models.Model):
     # Valor Inventario Materia Prima
     def calcular_VIMP2(self):
         return float(self.P9) * float(self.P8)*0.87
+
+# CUENTAS
+class Cuenta(models.Model):
+    TIPO_CUENTA_CHOICES = [
+        ('ACTIVO', 'Activo'),
+        ('PASIVO', 'Pasivo'),
+        ('PATRIMONIO', 'Patrimonio'),
+        ('INGRESO', 'Ingreso'),
+        ('GASTO', 'Gasto'),
+    ]
+
+    grupo = models.ForeignKey(Grupo, on_delete=models.CASCADE, related_name='cuentas')
+    nombre = models.CharField(max_length=100)
+    tipo = models.CharField(max_length=10, choices=TIPO_CUENTA_CHOICES)
+    saldo = models.DecimalField(max_digits=15, decimal_places=2, default=0.0)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    fecha_actualizacion = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.nombre} ({self.tipo}) - Saldo: {self.saldo}'
     
+    class Meta:
+        verbose_name = "Cuenta"
+        verbose_name_plural = "Cuentas"
