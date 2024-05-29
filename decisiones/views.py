@@ -16,28 +16,32 @@ class Login(LoginView):
     redirect_authenticated_user = True
 
 def home(request):
-    migrupo = Grupo.get_group(request.user)
-    cant_grupos = Grupo.objects.count()
-    grupos = Grupo.objects.all()
-    return render(request, 'decisiones/home.html', {'cant_grupos':cant_grupos, 'grupos': grupos , 'migrupo': migrupo})
+    return render(request, 'decisiones/home.html')
 
-class FormularioNew(CreateView):
+
+#FORMULARIOS
+
+class FormularioListView(ListView):
+    model = Formulario
+    template_name = 'decisiones/formulario_list.html'
+    context_object_name = 'formularios'
+
+class FormularioCreateView(CreateView):
     model = Formulario
     template_name = 'decisiones/formulario_form.html'
     form_class = FormularioForm
     success_url = reverse_lazy('formulario_new')
+
+    def get_form_kwargs(self):
+        kwargs = super(FormularioCreateView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
     
     def form_valid(self, form):
         response = super().form_valid(form)
         messages.success(self.request, 'El registro se ha guardado con éxito.')
         return response
-
-# Formulario view
-class FormularioList(ListView):
-    model = Formulario
-    template_name = 'decisiones/formulario_list.html'
-    context_object_name = 'formularios'
-
+    
 # Formulario2
 class FormularioView(DetailView):
     model = Formulario
@@ -50,3 +54,33 @@ class FormularioView(DetailView):
         context["formularios"] = Formulario.objects.all()
         context["titulo"] = "Formulario 3"
         return context
+    
+# GRUPOS
+
+class GrupoListView(ListView):
+    model = Grupo
+    template_name = 'decisiones/grupo_list.html'
+    context_object_name = 'grupos'
+
+class GrupoCreateView(CreateView):
+    model = Grupo
+    template_name = 'decisiones/grupo_form.html'
+    fields = '__all__'
+    success_url = reverse_lazy('grupo_list')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'El registro se ha guardado con éxito.')
+        return response
+
+class GrupoUpdateView(UpdateView):
+    model = Grupo
+    template_name = 'decisiones/grupo_form.html'
+    fields = '__all__'
+    context_object_name = 'obj'
+    success_url = reverse_lazy('grupo_list')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'El registro se ha actualizado con éxito.')
+        return response

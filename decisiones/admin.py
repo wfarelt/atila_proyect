@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Semestre, Grupo, Formulario
+from .models import Semestre, Grupo, Formulario, Periodo
 
 @admin.register(Semestre)
 class SemestreAdmin(admin.ModelAdmin):
@@ -15,5 +15,10 @@ class GrupoAdmin(admin.ModelAdmin):
     list_display = ('id', 'nombre')
     search_fields = ('nombre',)
 
-
+@admin.register(Periodo)
+class PeriodoAdmin(admin.ModelAdmin):
+    list_display = ('id', 'year', 'trimestre', 'estado')
+    search_fields = ('year', 'trimestre')
+    list_filter = ('year', 'trimestre', 'estado')
+    
 admin.site.register(Formulario)

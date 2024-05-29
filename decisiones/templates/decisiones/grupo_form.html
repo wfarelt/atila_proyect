@@ -1,0 +1,28 @@
+{% extends 'decisiones/base.html' %}
+
+{% load static %}
+
+{% block title %}
+<title>Grupo Nuevo</title>
+{% endblock %}
+
+{% block content %}
+<div class="card mt-4 text-center">
+    {% if obj %}
+        <form action="{% url 'grupo_edit' obj.pk %}" method="post">
+            <h2>Editar grupo</h2>
+    {% else %}
+        <form action="{% url 'grupo_new' %}" method="post"></form>
+            <h2>Nuevo grupo</h2>
+    {% endif %}
+            <br>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary btn-block m-1">Guardar <span ><i class="fas fa-check"></i></span></button>
+        </form>
+    <a href="{% url 'grupo_list' %}">Cancelar</a>
+</div>
+{% endblock %}
+
+
+

@@ -28,17 +28,11 @@ class Grupo(models.Model):
 
     def __str__(self):
         return self.nombre
-    
-    # obtener el nombre del grupo del usuario
-    @staticmethod
-    def get_group(user):
-        return Grupo.objects.get(user=user)
-        
-    
 
 #FORMULARIO
 class Formulario(models.Model):
     grupo = models.ForeignKey(Grupo, on_delete=models.CASCADE, related_name='formularios')
+    periodo = models.ForeignKey('Periodo', on_delete=models.CASCADE, related_name='formularios', null=True, blank=True)
     P4 = models.IntegerField(verbose_name='Indique la cantidad total de personal especializado de mano de obra de producción en un trimestre (en cantidad)')
     P5 = models.IntegerField(verbose_name='El total de personal especializado como máximo puede producir un total de unidades de productos terminados en trimestre de: (en cantidad)')
     P6 = models.DecimalField(verbose_name='Solo un personal especializado de mano de obra de producción en promedio tiene un costo trimestral de bolivianos. (Una sola persona)', max_digits=10, decimal_places=2)
@@ -125,3 +119,19 @@ class Cuenta(models.Model):
     class Meta:
         verbose_name = "Cuenta"
         verbose_name_plural = "Cuentas"
+
+# PERIODOS
+
+class Periodo(models.Model):
+    year = models.IntegerField()
+    trimestre = models.IntegerField()
+    estado = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = "Periodo"
+        verbose_name_plural = "Periodos"
+        ordering = ['year', 'trimestre']
+    
+    def __str__(self):
+        return f'{self.trimestre} - {self.year}'
+    

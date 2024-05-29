@@ -4,42 +4,18 @@
 
 {% block content %}
 
-<div class="mt-4">
+<div class="mt-4 text-center">
     <h1>Hello World!</h1>
     <p>Welcome to Atila project!</p>
 
     <br>
 
- 
-    {% if user.is_authenticated %}
-    <p>Usuario: {{ user.username }}</p>
-    <p>Grupo: {{ migrupo.nombre }}</p>
-    {% else %}
-    <p>Please login to see this page.</p>
-    {% endif %}
- 
-
-{% if cant_grupos < 1 %}
-    <p>No existen grupos</p>
-{% else %}
-<h1>Lista de Grupos</h1>
-    <ul>
-        {% for grupo in grupos %}
-            <li>
-                {{ grupo.nombre }} - Formularios creados: {{ grupo.formularios.count }}
-            </li>
-        {% endfor %}
-    </ul>
-{% endif %}
-
-<br>
-<a class="btn btn-success" href="{% url 'formulario_new' %}">
-    <i class="fas fa-plus"></i> Formulario
-</a>
-<a class="btn btn-primary" href="">
-    <i class="fas fa-plus"></i> Grupo
-</a>
-<a class="btn btn-info" href="{% url 'formulario_list' %}">Lista Formularios</a>
+    <a class="btn btn-success" href="{% url 'formulario_new' %}">
+        <i class="fas fa-plus"></i> Formulario
+    </a>
+    <a class="btn btn-primary" href="{% url 'grupo_new' %}">
+        <i class="fas fa-plus"></i> Grupo
+    </a>
 
 </div>
 

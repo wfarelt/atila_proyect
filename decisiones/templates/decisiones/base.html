@@ -14,21 +14,37 @@
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Mi Proyecto</a>
+        <a class="navbar-brand" href="#">AtilaProject</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="">Home</a>
+                    <a class="nav-link" href="{% url 'home' %}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">Usuario: {{ user.username }}</a>
+                    <a class="nav-link" href="{% url 'grupo_list' %}">Grupos</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'formulario_list' %}">Formularios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">LibroDiario</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Cuentas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Periodos</a>
+                </li>
+
             </ul>
             <ul class="navbar-nav">
                 {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Usuario: {{ user.username }}</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="">Logout</a>
                     </li>
@@ -45,6 +61,17 @@
     </nav>
 
     <div class="container">
+        
+        <div class="mt-4 text-center">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
         {% block content %}
         {% endblock %}
     </div>
