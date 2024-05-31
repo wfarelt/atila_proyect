@@ -1,4 +1,4 @@
-{% extends 'decisiones/base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 {% block title %}
 <title>Formulario</title>
@@ -19,11 +19,6 @@
 
             {% csrf_token %}
 
-            <div class="form-group">
-                Selecciona el grupo al que perteneces:
-                {{ form.grupo }}
-
-            </div>
             <div class="form-group">
                 Periodo:
                 {{ form.periodo }}

@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Balance General</title>
+{% endblock %}
+
+{% block content %}
+    <h1>ACTIVOS</h1> 
+    <div class="table-sm">
+        <table class="table">
+            <tr>
+                <th>Nro</th>
+                <th>Concepto</th>
+                <th>Valor</th>
+            </tr>
+            <tr>
+                <th>101</th>
+                <td>Caja Bancos</td>
+                <td>{{ c1 }}</td>
+            </tr>
+            <tr>
+                <th>102</th>
+                <td>Deudores</td>
+                <td>{{ c2 }}</td>
+            </tr>
+            <tr>
+                <th>103</th>
+                <td>Credito Fiscal</td>
+                <td>{{ c3 }}</td>
+            </tr>
+            <tr>
+                <th>104</th>
+                <td>Credito Valor Inventario Productos terminados</td>
+                <td>{{ c4 }}</td>
+            </tr>
+            <tr>
+                <th>105</th>
+                <td>Valor inventario materias primas</td>
+                <td>{{ c5 }}</td>
+            </tr>
+            <tr>
+                <th>106</th>
+                <td>Valor Inmueble</td>
+                <td>{{ c6 }}</td>
+            </tr>
+            <tr>
+                <th>107</th>
+                <td>Valor Maquinaria</td>
+                <td>{{ c7 }}</td>
+            </tr>
+            <tr>
+                <th>108</th>
+                <td>Muebles y enseres</td>
+                <td>{{ c8 }}</td>
+            </tr>
+            <tr>
+                <th>109</th>
+                <td>Vehiculos</td>
+                <td>{{ c9 }}</td>
+            </tr>
+            <tr>
+                <th>110</th>
+                <td>Herramientas</td>
+                <td>{{ c10 }}</td>
+            </tr>
+            <tr>
+                <th>111</th>
+                <td>Equipos de Computacion</td>
+                <td>{{ c11 }}</td>
+            </tr>
+            <tr>
+                <th>112</th>
+                <td>Patente</td>
+                <td>{{ c12 }}</td>
+            </tr>
+            <tr>
+                <th>113</th>
+                <td>Inversiones</td>
+                <td>{{ c13 }}</td>
+            </tr>
+            <tr>
+                <th>114</th>
+                <td>Depreciaciones</td>
+                <td>{{ c14 }}</td>
+            </tr>
+            
+        </table>
+    </div>
+    <br>
+    <h1>PASIVOS</h1>  
+    <div class="table-sm">
+        <table class="table">
+            <tr>
+                <th>Nro</th>
+                <th>Concepto</th>
+                <th>Valor</th>
+            </tr>
+            <tr>
+                <th>201</th>
+                <td>Acreedores</td>
+                <td>{{ c201 }}</td>
+            </tr>
+            <tr>
+                <th>202</th>
+                <td>Aportes patronales y laborales x pagar</td>
+                <td>{{ c202 }}</td>
+            </tr>
+            <tr>
+                <th>203</th>
+                <td>IVA por pagar</td>
+                <td>{{ c203 }}</td>
+            </tr>
+            <tr>
+                <th>204</th>
+                <td>IT por pagar </td>
+                <td>{{ c204 }}</td>
+            </tr>
+            <tr>
+                <th>205</th>
+                <td>IUE por pagar</td>
+                <td>{{ C205 }}</td>
+            </tr>
+            <tr>
+                <th>206</th>
+                <td>Beneficios sociales por pagar</td>
+                <td>{{ c206 }}</td>
+            </tr>
+            <tr>
+                <th>207</th>
+                <td>Crédito Bancario corto plazo</td>
+                <td>{{ c207 }}</td>
+            </tr>
+            <tr>
+                <th>208</th>
+                <td>Crédito Bancario largo plazo</td>
+                <td>{{ c208 }}</td>
+            </tr>
+        </table>
+    </div>
+    <br>
+    <h1>PATRIMONIO</h1>
+    <div class="table-sm">
+        <table class="table">
+            <tr>
+                <th>Nro</th>
+                <th>Concepto</th>
+                <th>Valor</th>
+            </tr>
+            <tr>
+                <th>301</th>
+                <td>Capital Social</td>
+                <td>{{ c301 }}</td>
+            </tr>
+            <tr>
+                <th>302</th>
+                <td>Utilidad de la gestión</td>
+                <td>{{ c302 }}</td>
+            </tr>
+            <tr>
+                <th>303</th>
+                <td>Utilidad acumulada</td>
+                <td>{{ c303 }}</td>
+            </tr>
+        </table>
+    </div>
+    <br>
+    <h1>INGRESOS</h1>
+    <div class="table-sm">
+        <table class="table">
+            <tr>
+                <th>Nro</th>
+                <th>Concepto</th>
+                <th>Valor</th>
+            </tr>
+            <tr>
+                <th>401</th>
+                <td>Ingresos por Ventas</td>
+                <td>{{ c401 }}</td>
+            </tr>
+            <tr>
+                <th>402</th>
+                <td>(-) Costo de venta: Costo de Materia Prima e insumos</td>
+                <td>{{ c402 }}</td>
+            </tr>
+            <tr>
+                <th>403</th>
+                <td>(-) Costo de venta: Salarios Mano de obra</td>
+                <td>{{ c403 }}</td>
+            </tr>
+            <tr>
+                <th>404</th>
+                <td>Otros ingresos</td>
+                <td>{{ c404 }}</td>
+            </tr>
+        </table>
+    </div>
+    <br>
+    <h1>EGRESOS</h1>
+    <div class="table-sm">
+        <table class="table">
+            <tr>
+                <th>Nro</th>
+                <th>Concepto</th>
+                <th>Valor</th>
+            </tr>
+            <tr>
+                <th>501</th>
+                <td>Gastos administración</td>
+                <td>{{ c501 }}</td>
+            </tr>
+            <tr>
+                <th>502</th>
+                <td>Aporte patronales y laborales</td>
+                <td>{{ c502 }}</td>
+            </tr>
+            <tr>
+                <th>503</th>
+                <td>Planilla de Sueldos administrativos</td>
+                <td>{{ c503 }}</td>
+            </tr>
+            <tr>
+                <th>504</th>
+                <td>Indemnización y aguinaldo</td>
+                <td>{{ c504 }}</td>
+            </tr>
+            <tr>
+                <th>505</th>
+                <td>Gastos de marketing</td>
+                <td>{{ c505 }}</td>
+            </tr>
+            <tr>
+                <th>506</th>
+                <td>Impuesto a las transacciones</td>
+                <td>{{ c506 }}</td>
+            </tr>
+        </table>
+    </div>
+
+{% endblock %}

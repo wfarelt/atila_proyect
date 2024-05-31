@@ -1,11 +1,12 @@
 from django.db import models
-from django.contrib.auth.models import User
 
 # Create your models here.
 
+# SEMESTRES
 class Semestre(models.Model):
     año = models.IntegerField()
     nombre = models.CharField(max_length=10)
+    estado = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = "Semestre"
@@ -16,22 +17,23 @@ class Semestre(models.Model):
     def __str__(self):
         return f'{self.año} - {self.nombre}'
 
-class Grupo(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    nombre = models.CharField(max_length=100)
-    semestre = models.ForeignKey(Semestre, on_delete=models.CASCADE, related_name='grupos')
+# PERIODOS
+class Periodo(models.Model):
+    year = models.IntegerField()
+    trimestre = models.IntegerField()
+    estado = models.BooleanField(default=True)
 
     class Meta:
-        verbose_name = "Grupo"
-        verbose_name_plural = "Grupos"
-        ordering = ['semestre', 'nombre']
-
+        verbose_name = "Periodo"
+        verbose_name_plural = "Periodos"
+        ordering = ['year', 'trimestre']
+    
     def __str__(self):
-        return self.nombre
-
-#FORMULARIO
+        return f'{self.year} - Trimestre {self.trimestre}'
+    
+#FORMULARIOS
 class Formulario(models.Model):
-    grupo = models.ForeignKey(Grupo, on_delete=models.CASCADE, related_name='formularios')
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='formularios', null=True, blank=True)
     periodo = models.ForeignKey('Periodo', on_delete=models.CASCADE, related_name='formularios', null=True, blank=True)
     P4 = models.IntegerField(verbose_name='Indique la cantidad total de personal especializado de mano de obra de producción en un trimestre (en cantidad)')
     P5 = models.IntegerField(verbose_name='El total de personal especializado como máximo puede producir un total de unidades de productos terminados en trimestre de: (en cantidad)')
@@ -70,8 +72,12 @@ class Formulario(models.Model):
     P45 = models.CharField(verbose_name='Cantidad de unidades a vender en este trimestre', max_length=100)
 
     def __str__(self):
-        return f'Formulario #{self.id} - Grupo: {self.grupo.nombre}'
+        return f'Formulario #{self.id} - Grupo: {self.user}'
     
+    # mostrar el periodo del formulario
+    def get_periodo(self):
+        return self.periodo
+
     class Meta:
         verbose_name = "Formulario"
         verbose_name_plural = "Formularios"
@@ -95,6 +101,17 @@ class Formulario(models.Model):
     # Valor Inventario Materia Prima
     def calcular_VIMP2(self):
         return float(self.P9) * float(self.P8)*0.87
+    
+    # (-) Costo de venta: Salarios Mano de obra
+    def calcular_CV(self):
+        total_ganado = float(self.P6) * float(self.P15)
+        aportes_laborares = total_ganado * 0.1271
+        return total_ganado - aportes_laborares
+    
+    # Aporte patronales y laborales
+    def calcular_APL(self):
+        total_ganado = float(self.P6) * float(self.P15)
+        return total_ganado * 0.1671
 
 # CUENTAS
 class Cuenta(models.Model):
@@ -106,32 +123,33 @@ class Cuenta(models.Model):
         ('GASTO', 'Gasto'),
     ]
 
-    grupo = models.ForeignKey(Grupo, on_delete=models.CASCADE, related_name='cuentas')
+    codigo = models.CharField(max_length=10)
     nombre = models.CharField(max_length=100)
     tipo = models.CharField(max_length=10, choices=TIPO_CUENTA_CHOICES)
-    saldo = models.DecimalField(max_digits=15, decimal_places=2, default=0.0)
-    fecha_creacion = models.DateTimeField(auto_now_add=True)
-    fecha_actualizacion = models.DateTimeField(auto_now=True)
-
+    
     def __str__(self):
-        return f'{self.nombre} ({self.tipo}) - Saldo: {self.saldo}'
+        return f'{self.codigo} - {self.nombre}'
     
     class Meta:
         verbose_name = "Cuenta"
         verbose_name_plural = "Cuentas"
 
-# PERIODOS
-
-class Periodo(models.Model):
-    year = models.IntegerField()
-    trimestre = models.IntegerField()
-    estado = models.BooleanField(default=True)
-
-    class Meta:
-        verbose_name = "Periodo"
-        verbose_name_plural = "Periodos"
-        ordering = ['year', 'trimestre']
+# MOVIMIENTOS
+class Movimiento(models.Model):
+    TIPO_CUENTA_CHOICES = [
+        ('DEBE', 'Debe'),
+        ('HABER', 'Haber'),
+    ]
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='movimientos')
+    cuenta = models.ForeignKey('Cuenta', on_delete=models.CASCADE, related_name='movimientos')
+    formulario = models.ForeignKey('Formulario', on_delete=models.CASCADE, related_name='movimientos')
+    tipo = models.CharField(max_length=10, choices=TIPO_CUENTA_CHOICES)
+    monto = models.DecimalField(max_digits=10, decimal_places=2)
+    descripcion = models.CharField(max_length=100)
     
     def __str__(self):
-        return f'{self.trimestre} - {self.year}'
+        return f'{self.cuenta} - {self.monto}'
     
+    class Meta:
+        verbose_name = "Movimiento"
+        verbose_name_plural = "Movimientos"

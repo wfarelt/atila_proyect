@@ -23,34 +23,33 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'home' %}">Home</a>
                 </li>
+                {% if user.is_staff %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'grupo_list' %}">Grupos</a>
+                    <a class="nav-link" href="">Lista de grupos</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'formulario_list' %}">Formularios</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">LibroDiario</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="">Cuentas</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="">Periodos</a>
                 </li>
-
+                {% endif %}
             </ul>
             <ul class="navbar-nav">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="">Usuario: {{ user.username }}</a>
                     </li>
+      
                     <li class="nav-item">
-                        <a class="nav-link" href="">Logout</a>
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="nav-link btn" >Log Out</button>
+                        </form>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="">Login</a>
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="">Sign Up</a>

@@ -1,4 +1,4 @@
-{% extends 'decisiones/base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}
@@ -15,7 +15,8 @@
             <thead>
                 <tr>
                     <th scope="col">Id</th>
-                    <th scope="col">Grupo</th> 
+                    <th scope="col">User</th> 
+                    <th scope="col">Periodo</th>
                     <th scope="col" class="text-center">Acciones</th>
                 </tr>
             </thead>
@@ -23,7 +24,8 @@
                 {% for formulario in formularios %}
                 <tr>
                     <td>{{ formulario.id }}</td>
-                    <td>{{ formulario.grupo.nombre }}</td>
+                    <td>{{ formulario.user }}</td>
+                    <td>{{ formulario.periodo }}</td>
                     <td class="text-center">
                         <a href="" class="btn btn-primary btn-sm"><i
                                 class="fas fa-eye"></i></a>

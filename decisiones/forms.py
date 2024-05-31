@@ -1,25 +1,29 @@
 from django import forms
-from .models import Formulario, Periodo, User, Grupo
+from .models import Formulario, Periodo
 
 class FormularioForm(forms.ModelForm):
     class Meta:
         model = Formulario
         fields = '__all__'
-        ##widgets = {
-        ##    'grupo': forms.Select(attrs={'class': 'form-control'} ),
-        ##}
     
     def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user', None)
-        super(FormularioForm, self).__init__(*args, **kwargs)
-        # seleccionar grupo del usuario actual
-        self.fields['grupo'].queryset = Grupo.objects.filter(user=self.user)
+        super().__init__(*args, **kwargs)
         # Filtrar periodos activos
-        self.fields['periodo'].queryset = Periodo.objects.filter(estado=True) 
-        # Añadir clases a los campos
-        for field in self.fields.values():
-            field.widget.attrs.update({'class': 'form-control'})
-            field.widget.attrs.update({'value': '0'})
-            field.widget.attrs.update({'min': '0'})
+        self.fields['periodo'].queryset = Periodo.objects.filter(estado=True)
+        # Agregar clases de bootstrap
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control'})
+            # Agregar valor por defecto a los campos numericos
+            if 'P' in field:
+                self.fields[field].widget.attrs.update({'value': 0})
+            # Agregar placeholder a los campos numericos
+            if 'P' in field:
+                self.fields[field].widget.attrs.update({'placeholder': 'Ingrese un valor'})
+            
+        
+
+
+
 
         
+    
