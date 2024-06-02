@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView, DetailView
 from django.urls import reverse_lazy
-from .models import Formulario, Movimiento, Cuenta
-from .forms import FormularioForm
+from .models import Formulario, Movimiento, Cuenta, Integrante
+from .forms import FormularioForm, IntegranteForm
 
 def home(request):
     return render(request, 'decisiones/home.html')
@@ -148,3 +148,26 @@ def total_cuenta(movimientos, codigo_cuenta):
             else:
                 t += m.monto
     return t
+
+# INTEGRANTES
+class IntegranteCreateView(CreateView):
+    model = Integrante
+    template_name = 'decisiones/integrante_form.html'
+    form_class = IntegranteForm
+    success_url = reverse_lazy('integrante_new')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        response = super().form_valid(form)
+        messages.success(self.request, 'El registro se ha guardado con éxito.')
+        return response
+
+# crear una clase para listar los integrantes que pertenecen al usuario
+class IntegrantesListView(ListView):
+    model = Integrante
+    template_name = 'decisiones/integrantes_list.html'
+    context_object_name = 'integrantes'
+
+    def get_queryset(self):
+        return Integrante.objects.filter(user=self.request.user)
+

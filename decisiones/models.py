@@ -153,3 +153,18 @@ class Movimiento(models.Model):
     class Meta:
         verbose_name = "Movimiento"
         verbose_name_plural = "Movimientos"
+
+# INTEGRANTES
+class Integrante(models.Model):
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='integrantes', null=True, blank=True)
+    apellido_paterno = models.CharField(max_length=50)
+    apellido_materno = models.CharField(max_length=50)
+    nombre = models.CharField(max_length=100)
+    registro = models.CharField(max_length=10)
+    
+    def __str__(self):
+        return f'{self.apellido_paterno} {self.apellido_materno} {self.nombre}'
+    
+    class Meta:
+        verbose_name = "Integrante"
+        verbose_name_plural = "Integrantes"

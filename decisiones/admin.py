@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Semestre, Formulario, Periodo, Cuenta, Movimiento
+from .models import Semestre, Formulario, Periodo, Cuenta, Movimiento, Integrante
 
 @admin.register(Semestre)
 class SemestreAdmin(admin.ModelAdmin):
@@ -35,3 +35,5 @@ class MovimientoAdmin(admin.ModelAdmin):
         return obj.formulario.periodo
     
     get_formulario_periodo.short_description = 'Periodo'  # Sets column name in admin panel
+
+admin.site.register(Integrante)
